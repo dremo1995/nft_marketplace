@@ -69,7 +69,7 @@ const Navbar = () => {
         </Link>
         <Link href="/">
           <div className="hidden md:flex" onClick={() => {}}>
-            <Image src={images.logo02} objectFit="contain" width={60} height={60} />
+            <Image src={images.logo02} objectFit="contain" width={80} height={80} />
           </div>
         </Link>
       </div>
@@ -112,8 +112,8 @@ const Navbar = () => {
           />
         )}
         {isOpen && (
-          <div className="fixed inset-0 top-65 dark:bg-nft-dark bg-white z-10 nav-h flex justify-between flex-col ">
-            <div className="flex-1 p-4">
+          <div className="fixed inset-0 top-auto dark:bg-nft-dark bg-white z-10 nav-h flex justify-between flex-col">
+            <div className="flex-1 p-2">
               <MenuItems active={active} setActive={setActive} isMobile setIsOpen={setIsOpen} />
             </div>
             <div className="p-4 border-t flex justify-center dark:border-nft-black-1 border nft-gray-1">
