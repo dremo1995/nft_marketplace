@@ -1,7 +1,7 @@
 import React from 'react';
 
 const NFTDetails = () => (
-  <div>NFTDetails</div>
+  <div className="pt-20">NFTDetails</div>
 );
 
 export default NFTDetails;
