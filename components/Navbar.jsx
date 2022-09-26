@@ -3,16 +3,17 @@ import { useRouter } from 'next/router';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
-import images from '../assets';
 
+import { NFTContext } from '../context/NFTContext';
+import images from '../assets';
 import { Button } from '.';
 
 const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
   const generateLink = (index) => {
     switch (index) {
       case 0: return '/';
-      case 1: return 'created-nfts';
-      case 2: return 'my-nfts';
+      case 1: return '/created-nfts';
+      case 2: return '/my-nfts';
       default: return '/';
     }
   };
@@ -26,7 +27,7 @@ const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
             setActive(item);
             isMobile && setIsOpen(false);
           }}
-          className={`flex flex-row items-center font-poppins font-semibold text-base dark:hover:text-white hover:text-nft-dark mx-3 ${isMobile && 'my-2'} ${active == item ? 'dark:text-white text-nft-black-1' : 'dark:text-nft-gray-3 text-nft-gray-2'}`}
+          className={`flex flex-row items-center font-poppins font-semibold text-base dark:hover:text-white hover:text-nft-dark mx-3 ${isMobile && 'my-2'} ${active === item ? 'dark:text-white text-nft-black-1' : 'dark:text-nft-gray-3 text-nft-gray-2'}`}
         >
           <Link href={generateLink(index)}>{item}</Link>
         </li>
@@ -36,9 +37,10 @@ const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
 };
 
 const ButtonGroup = ({ setActive, router }) => {
-  const hasConnected = true;
+  const { connectWallet, currentAccount } = useContext(NFTContext);
+  console.log(currentAccount);
 
-  return hasConnected ? (
+  return currentAccount ? (
     <Button
       btnName="Create"
       classStyles="mx-2 rounded-xl"
@@ -48,7 +50,7 @@ const ButtonGroup = ({ setActive, router }) => {
         router.push('/create-nft');
       }}
     />
-  ) : (<Button btnName="Connect" classStyles="mx-2 rounded-xl" />);
+  ) : (<Button btnName="Connect" classStyles="mx-2 rounded-xl" handleClick={connectWallet} />);
 };
 
 const Navbar = () => {
