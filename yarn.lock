@@ -5332,7 +5332,7 @@
     "timeout-abort-controller" "^3.0.0"
     "uint8arrays" "^3.0.0"
 
-"ipfs-http-client@56.0.1":
+"ipfs-http-client@^56.0.1":
   "integrity" "sha512-U0sUyGZndcIluMJL3gDdCSgF7RwShDklJJxfDf9IRcbO72hqSJsib4amYzqcqfetft6vYa8uRIoJFEIWndHwrg=="
   "resolved" "https://registry.npmjs.org/ipfs-http-client/-/ipfs-http-client-56.0.1.tgz"
   "version" "56.0.1"

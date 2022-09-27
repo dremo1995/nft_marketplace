@@ -25,7 +25,7 @@ const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
           key={index}
           onClick={() => {
             setActive(item);
-            isMobile && setIsOpen(false);
+            if (isMobile) setIsOpen(false);
           }}
           className={`flex flex-row items-center font-poppins font-semibold text-base dark:hover:text-white hover:text-nft-dark mx-3 ${isMobile && 'my-2'} ${active === item ? 'dark:text-white text-nft-black-1' : 'dark:text-nft-gray-3 text-nft-gray-2'}`}
         >
@@ -38,7 +38,6 @@ const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
 
 const ButtonGroup = ({ setActive, router }) => {
   const { connectWallet, currentAccount } = useContext(NFTContext);
-  console.log(currentAccount);
 
   return currentAccount ? (
     <Button
@@ -46,7 +45,6 @@ const ButtonGroup = ({ setActive, router }) => {
       classStyles="mx-2 rounded-xl"
       handleClick={() => {
         setActive('');
-        console.log({ router });
         router.push('/create-nft');
       }}
     />

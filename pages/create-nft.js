@@ -4,16 +4,21 @@ import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
+import { NFTContext } from '../context/NFTContext';
 import { Button, Input } from '../components';
 import images from '../assets';
 
 const CreateNFT = () => {
+  const { uploadToIpfs } = useContext(NFTContext);
   const { theme } = useTheme();
   const [fileUrl, setFileUrl] = useState(null);
   const [formInput, setFormInput] = useState({ price: '', name: '', description: '' });
-  const onDrop = useCallback(() => {
-  // upload image to the ipfs
-  });
+
+  const onDrop = useCallback(async (acceptedFile) => {
+    const url = await uploadToIpfs(acceptedFile[0]);
+    console.log({ url });
+    setFileUrl(url);
+  }, []);
 
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({ onDrop, accept: 'image/*', maxSize: 5000000 });
 
@@ -24,8 +29,6 @@ const CreateNFT = () => {
     ${isDragReject && ' border-file-reject'} 
     `
   ), [isDragAccept, isDragActive, isDragReject]);
-
-  console.log(formInput);
 
   return (
     <div className="flex justify-center sm:px-4 p-12">
