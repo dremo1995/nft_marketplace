@@ -9,14 +9,14 @@ import { Button, Input } from '../components';
 import images from '../assets';
 
 const CreateNFT = () => {
-  const { uploadToIpfs } = useContext(NFTContext);
+  const { uploadToIpfs, createNFT } = useContext(NFTContext);
   const { theme } = useTheme();
   const [fileUrl, setFileUrl] = useState(null);
   const [formInput, setFormInput] = useState({ price: '', name: '', description: '' });
+  const router = useRouter();
 
   const onDrop = useCallback(async (acceptedFile) => {
     const url = await uploadToIpfs(acceptedFile[0]);
-    console.log({ url });
     setFileUrl(url);
   }, []);
 
@@ -87,7 +87,7 @@ const CreateNFT = () => {
         />
 
         <div className="mt-7 w-full flex justify-end">
-          <Button btnName="Create NFT" classStyles="rounded-xl" handleClick={() => {}} />
+          <Button btnName="Create NFT" classStyles="rounded-xl" handleClick={() => createNFT(formInput, fileUrl, router)} />
         </div>
       </div>
 
