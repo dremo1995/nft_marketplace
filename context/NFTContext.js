@@ -5,6 +5,7 @@ import axios from 'axios';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
 
 import { MarketAddress, MarketAddressAbi } from './constants';
+import { formatTokenUri } from '../utils/formatTokenUri';
 
 const fetchContract = (signerOrProvider) => new ethers.Contract(MarketAddress, MarketAddressAbi, signerOrProvider);
 
@@ -54,7 +55,7 @@ export const NFTProvider = ({ children }) => {
   const uploadToIpfs = async (file, setFileUrl) => {
     try {
       const added = await client.add({ content: file });
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      const url = `https://ultraverse.infura-ipfs.io/ipfs/${added.path}`;
       return url;
     } catch (error) {
       console.log('error uploading file to ipfs');
@@ -77,19 +78,20 @@ export const NFTProvider = ({ children }) => {
 
   const fetchNFTs = async () => {
     const provider = new ethers.providers.JsonRpcProvider();
+
     const contract = fetchContract(provider);
 
-    const data = await contract.fetchMarketItem();
+    const data = await contract.fetchMarketItems();
 
-    const items = await Promise.all(data.map(async ({ tokeId, seller, owner, price: unformattedPrice }) => {
-      const tokenURI = await contract.tokenURI(tokeId);
+    const items = await Promise.all(data.map(async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+      const tokenURI = await contract.tokenURI(tokenId);
 
-      const { data: { image, name, description } } = await axios.get(tokenURI);
-      const price = ethers.utils.parseUnits(unformattedPrice, 'ether');
+      const { data: { image, name, description } } = await axios.get(formatTokenUri(tokenURI));
+      const price = ethers.utils.formatUnits(unformattedPrice.toString(), 'ether');
 
       return {
         price,
-        tokenId: tokeId.toNumber(),
+        tokenId: tokenId.toNumber(),
         seller,
         owner,
         image,
@@ -121,8 +123,37 @@ export const NFTProvider = ({ children }) => {
     }
   };
 
+  const fetchMyNFTsOrListedNFTs = async (type) => {
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(signer);
+    const data = type === 'fetchItemsListed' ? await contract.fetchItemsListed() : await contract.fetchMyNFts();
+
+    const items = await Promise.all(data.map(async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+      const tokenURI = await contract.tokenURI(tokenId);
+
+      const { data: { image, name, description } } = await axios.get(formatTokenUri(tokenURI));
+      const price = ethers.utils.formatUnits(unformattedPrice.toString(), 'ether');
+
+      return {
+        price,
+        tokenId: tokenId.toNumber(),
+        seller,
+        owner,
+        image,
+        name,
+        description,
+        tokenURI,
+      };
+    }));
+    return items;
+  };
+
   return (
-    <NFTContext.Provider value={{ nftCurrency, connectWallet, currentAccount, uploadToIpfs, createNFT, fetchNFTs }}>
+    <NFTContext.Provider value={{ nftCurrency, connectWallet, currentAccount, uploadToIpfs, createNFT, fetchNFTs, fetchMyNFTsOrListedNFTs }}>
       {children}
     </NFTContext.Provider>
   );

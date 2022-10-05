@@ -20,7 +20,6 @@ const Home = () => {
     fetchNFTs()
       .then((items) => {
         setNfts(items);
-        console.log(items);
       });
   }, []);
 
@@ -65,6 +64,7 @@ const Home = () => {
           </h1>
           <div className="relative flex-1 max-w-full flex mt-3 justify-center" ref={parentRef}>
             <div className="flex flex-row w-max overflow-x-scroll no-scrollbar select-none" ref={scrollRef}>
+
               {[6, 7, 8, 9, 10].map((item, i) => (
                 <CreatorCard
                   key={`creator-${i}`}
@@ -96,7 +96,8 @@ const Home = () => {
             </div>
           </div>
           <div className="mt-3 w-full flex flex-wrap justify-center">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+            {nfts.map((nft) => <NFTCard key={nft.tokenId} nft={nft} />)}
+            {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
               <NFTCard
                 key={`nft${i}`}
                 nft={{ i,
@@ -108,7 +109,7 @@ const Home = () => {
                 }}
 
               />
-            ))}
+            ))} */}
           </div>
         </div>
 

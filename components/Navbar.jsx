@@ -12,7 +12,7 @@ const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
   const generateLink = (index) => {
     switch (index) {
       case 0: return '/';
-      case 1: return '/created-nfts';
+      case 1: return '/listed-nfts';
       case 2: return '/my-nfts';
       default: return '/';
     }

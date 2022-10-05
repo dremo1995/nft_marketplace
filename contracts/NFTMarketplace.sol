@@ -19,7 +19,7 @@ contract NFTMarketplace is ERC721URIStorage {
     mapping(uint256 => MarketItem) private idToMarketItem;
 
     struct MarketItem {
-        uint256 tokeId;
+        uint256 tokenId;
         address payable seller;
         address payable owner;
         uint256 price;
@@ -27,7 +27,7 @@ contract NFTMarketplace is ERC721URIStorage {
     }
 
     event MarketItemCreated(
-        uint256 indexed tokeId,
+        uint256 indexed tokenId,
         address seller,
         address owner,
         uint256 price,
@@ -128,7 +128,7 @@ contract NFTMarketplace is ERC721URIStorage {
         payable(idToMarketItem[tokenId].seller).transfer(msg.value);
     }
 
-    function fetchMarketItem() public view returns(MarketItem[] memory) {
+    function fetchMarketItems() public view returns(MarketItem[] memory) {
         uint itemCount = _tokenIds.current();
         uint unsoldItemCount = _tokenIds.current() - _itemsSold.current();
         uint currentIndex = 0;
