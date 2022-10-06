@@ -7,6 +7,8 @@ import { NFTContext } from '../context/NFTContext';
 
 import images from '../assets';
 import { makeId } from '../utils/makeId';
+import { getCreators } from '../utils/getTopCreators';
+import { shortenAddress } from '../utils/shortenAddress';
 
 const Home = () => {
   const { fetchNFTs } = useContext(NFTContext);
@@ -52,6 +54,7 @@ const Home = () => {
       window.removeEventListener('resize', isScrollable);
     };
   }, []);
+  const topCreators = getCreators(nfts);
 
   return (
     <div className="flex justify-center sm:px-4 p-12 ">
@@ -65,7 +68,16 @@ const Home = () => {
           <div className="relative flex-1 max-w-full flex mt-3 justify-center" ref={parentRef}>
             <div className="flex flex-row w-max overflow-x-scroll no-scrollbar select-none" ref={scrollRef}>
 
-              {[6, 7, 8, 9, 10].map((item, i) => (
+              {topCreators.map((creator, i) => (
+                <CreatorCard
+                  key={creator.seller}
+                  rank={i + 1}
+                  creatorImage={images[`creator${i + 1}`]}
+                  creatorName={shortenAddress(creator.seller)}
+                  creatorETHs={creator.sum}
+                />
+              ))}
+              {/* {[6, 7, 8, 9, 10].map((item, i) => (
                 <CreatorCard
                   key={`creator-${i}`}
                   rank={item}
@@ -73,7 +85,7 @@ const Home = () => {
                   creatorName={`0x${makeId(3)}...${makeId(4)}`}
                   creatorETHs={10 - item * 0.5}
                 />
-              ))}
+              ))} */}
               {!hideButtons && (
               <>
                 <div onClick={() => handleScroll('left')} className="absolute w-8 h-8 minlg:w-12 minlg:h-12 top-45 cursor-pointer left-0">
@@ -97,19 +109,6 @@ const Home = () => {
           </div>
           <div className="mt-3 w-full flex flex-wrap justify-center">
             {nfts.map((nft) => <NFTCard key={nft.tokenId} nft={nft} />)}
-            {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
-              <NFTCard
-                key={`nft${i}`}
-                nft={{ i,
-                  name: `Nifty NFT ${i}`,
-                  price: (10 - i * 0.534),
-                  seller: `0x${makeId(3)}...${makeId(4)}`,
-                  owner: `0x${makeId(3)}...${makeId(4)}`,
-                  description: 'Cool NFT for Sale',
-                }}
-
-              />
-            ))} */}
           </div>
         </div>
 

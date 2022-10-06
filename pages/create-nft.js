@@ -16,11 +16,12 @@ const CreateNFT = () => {
   const router = useRouter();
 
   const onDrop = useCallback(async (acceptedFile) => {
+    console.log(acceptedFile);
     const url = await uploadToIpfs(acceptedFile[0]);
     setFileUrl(url);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({ onDrop, accept: 'image/*', maxSize: 5000000 });
+  const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({ onDrop, accept: 'image/*', maxFiles: 1, maxSize: 5000000 });
 
   const fileStyle = useMemo(() => (
     `dark:bg-nft-black-1 bg-white border dark:border-white border-nft-gray-2 flex flex-col items-center p-5 rounded-sm border-dashed
