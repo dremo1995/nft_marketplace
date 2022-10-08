@@ -5,11 +5,11 @@ import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
 import { NFTContext } from '../context/NFTContext';
-import { Button, Input } from '../components';
+import { Button, Input, Loader } from '../components';
 import images from '../assets';
 
 const CreateNFT = () => {
-  const { uploadToIpfs, createNFT } = useContext(NFTContext);
+  const { uploadToIpfs, createNFT, isLoadingNFT } = useContext(NFTContext);
   const { theme } = useTheme();
   const [fileUrl, setFileUrl] = useState(null);
   const [formInput, setFormInput] = useState({ price: '', name: '', description: '' });
@@ -31,6 +31,14 @@ const CreateNFT = () => {
     `
   ), [isDragAccept, isDragActive, isDragReject]);
 
+  if (isLoadingNFT) {
+    return (
+      <div className="flexStart min-h-screen">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div className="flex justify-center sm:px-4 p-12">
       <div className="w-4/5 md:w-full">
@@ -51,7 +59,7 @@ const CreateNFT = () => {
                     height={100}
                     objectFit="contain"
                     alt="file upload"
-                    className={theme === 'light' && 'filter invert'}
+                    className={theme === 'light' ? 'filter invert' : ''}
                   />
                 </div>
                 <p className="font-poppins dark:text-white text-nft-black-1 font-semibold text-sm">Drag and Drop File</p>
