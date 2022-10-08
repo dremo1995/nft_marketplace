@@ -6,7 +6,7 @@ const privateKey = fs.readFileSync('.secret').toString().trim();
 module.exports = {
   networks: {
     goerli: {
-      url: process.env.NEXT_PUBLIC_ALCHEMY_URL,
+      url: 'https://eth-goerli.g.alchemy.com/v2/UJlWqdNcmLoZvYIumIotFJg6O_iGTrwy',
       accounts: [privateKey],
     },
   },
