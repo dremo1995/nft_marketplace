@@ -45,7 +45,7 @@ const ButtonGroup = ({ setActive, router, setIsOpen, isOpen }) => {
       classStyles="mx-2 rounded-xl"
       handleClick={() => {
         setActive('');
-        isOpen ? (setIsOpen(false)) : null;
+        if (isOpen) setIsOpen(false);
         router.push('/create-nft');
       }}
     />
@@ -93,7 +93,7 @@ const Navbar = () => {
         className="flex flex-1 flex-row justify-start"
         onClick={() => {
           setActive('Explore NFTs');
-          isOpen ? setIsOpen(false) : null;
+          if (isOpen) setIsOpen(false);
         }}
       >
         <Link href="/">

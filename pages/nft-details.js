@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { NFTContext } from '../context/NFTContext';
-import { NFTCard, Loader, Button, Modal, PaymentBodyCmp } from '../components';
+import { Loader, Button, Modal, PaymentBodyCmp } from '../components';
 import images from '../assets';
 import { shortenAddress } from '../utils/shortenAddress';
 
@@ -95,7 +95,6 @@ const NFTDetails = () => {
             </div>
           </div>
         )}
-
         handleClose={() => setPaymentModal(false)}
       />
       )}
