@@ -6,8 +6,8 @@ const privateKey = fs.readFileSync('.secret').toString().trim();
 module.exports = {
   networks: {
     goerli: {
-      url: NEXT_PUBLIC_ALCHEMY_URL,
-      account: [privateKey],
+      url: process.env.NEXT_PUBLIC_ALCHEMY_URL,
+      accounts: [privateKey],
     },
   },
   solidity: '0.8.4',
