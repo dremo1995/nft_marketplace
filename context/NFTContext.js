@@ -10,7 +10,6 @@ import { formatTokenUri } from '../utils/formatTokenUri';
 const fetchContract = (signerOrProvider) => new ethers.Contract(MarketAddress, MarketAddressAbi, signerOrProvider);
 
 const auth = `Basic ${Buffer.from(`${process.env.NEXT_PUBLIC_PROJECT_ID}:${process.env.NEXT_PUBLIC_PROJECT_SECRET}`).toString('base64')}`;
-console.log(process.env.NEXT_PUBLIC_PROJECT_ID);
 
 const client = ipfsHttpClient({
   host: 'ipfs.infura.io',
