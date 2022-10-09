@@ -16,7 +16,6 @@ const CreateNFT = () => {
   const router = useRouter();
 
   const onDrop = useCallback(async (acceptedFile) => {
-    console.log(acceptedFile);
     const url = await uploadToIpfs(acceptedFile[0]);
     setFileUrl(url);
   }, []);
