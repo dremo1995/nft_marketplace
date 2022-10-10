@@ -10,7 +10,6 @@ import { formatTokenUri } from '../utils/formatTokenUri';
 const fetchContract = (signerOrProvider) => new ethers.Contract(MarketAddress, MarketAddressAbi, signerOrProvider);
 
 const auth = `Basic ${Buffer.from(`${process.env.NEXT_PUBLIC_PROJECT_ID}:${process.env.NEXT_PUBLIC_PROJECT_SECRET}`).toString('base64')}`;
-console.log(process.env.NEXT_PUBLIC_PROJECT_ID);
 
 const client = ipfsHttpClient({
   host: 'ipfs.infura.io',
@@ -97,6 +96,7 @@ export const NFTProvider = ({ children }) => {
       const tokenURI = await contract.tokenURI(tokenId);
 
       const { data: { image, name, description } } = await axios.get((tokenURI));
+      console.log(axios.get(tokenURI));
       const price = ethers.utils.formatUnits(unformattedPrice.toString(), 'ether');
 
       return {
@@ -110,6 +110,7 @@ export const NFTProvider = ({ children }) => {
         tokenURI,
       };
     }));
+    console.log(items);
     return items;
   };
 
