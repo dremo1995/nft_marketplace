@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { NFTContext } from '../context/NFTContext';
-import images from '../assets';
+
 import { shortenAddress } from '../utils/shortenAddress';
 
 const NFTCard = ({ nft, onProfilePage }) => {
