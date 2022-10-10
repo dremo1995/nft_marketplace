@@ -57,7 +57,7 @@ export const NFTProvider = ({ children }) => {
   const uploadToIpfs = async (file, setFileUrl) => {
     try {
       const added = await client.add({ content: file });
-      console.log(added);
+
       const url = `https://ultraverse.infura-ipfs.io/ipfs/${added.path}`;
       return url;
     } catch (error) {
@@ -76,7 +76,6 @@ export const NFTProvider = ({ children }) => {
     const contract = fetchContract(signer);
 
     const listingPrice = await contract.getListingPrice();
-    console.log(listingPrice);
     const transaction = !isReselling ? await contract.createToken(url, price, { value: listingPrice.toString() }) : await contract.reseltToken(id, price, { value: listingPrice.toString() });
 
     setIsLoadingNFT(true);
@@ -96,7 +95,6 @@ export const NFTProvider = ({ children }) => {
       const tokenURI = await contract.tokenURI(tokenId);
 
       const { data: { image, name, description } } = await axios.get((tokenURI));
-      console.log(axios.get(tokenURI));
       const price = ethers.utils.formatUnits(unformattedPrice.toString(), 'ether');
 
       return {
@@ -110,7 +108,6 @@ export const NFTProvider = ({ children }) => {
         tokenURI,
       };
     }));
-    console.log(items);
     return items;
   };
 
